@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>查询天气信息</title>
+</head>
+<body>
+<h1>{{ location }},今天气温{{ temp }}℃,天气{{ desc }}!</h1>
+<script src="../static/jquery-3.7.1.min.js"></script>
+<script>
+    $(function () {
+        $('#b1').click(function () {
+            var city_name = $('#t1').val();
+            $.ajax({
+                url: `/get_data?location=${city_name}`,
+                method: 'get',
+                success: function (data) {
+                    weather_data = JSON.parse(data)
+                    loc = weather_data['data']['location']
+                    temp = weather_data['data']['temp']
+                    desc = weather_data['data']['desc']
+                    display_h1 = `${loc},今天气温${temp}℃,天气${desc}!`
+                    $('h1').text(display_h1)
+                }
+            })
+        })
+    })
+</script>
+<br><br><input type="text" placeholder="请输入要查询的城市名" id="t1">
+<button id="b1">查询当前实时天气</button>
+</body>
+</html>
